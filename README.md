@@ -6,6 +6,8 @@ English | [한국어](docs/README_ko.md) | [Français](docs/README_fr.md) | [简
 
 ## Intro
 
+This is a fork of Comic Translate that ripped out user-based credits and replaced with manual API keys placement, added support for local LLM (Ollama and LM Studio).
+
 Many Automatic Manga Translators exist. Very few properly support comics of other kinds in other languages.
 This project was created to utilize the ability of State of the Art (SOTA) Large Language Models (LLMs) like GPT and translate comics from all over the world. It supports cloud LLMs (GPT, Claude, Gemini, Deepseek) as well as local LLMs via LM Studio and Ollama — no account or subscription required.
 
