@@ -18,8 +18,9 @@ class CredentialsPage(QtWidgets.QWidget):
         self.save_keys_checkbox = MCheckBox(self.tr("Save Keys"))
 
         info_label = MLabel(self.tr(
-            "These settings are for advanced users who wish to use their own Custom API endpoints (e.g. Local Language Models) for translation. "
-            "For most users, no configuration is needed here."
+            "Enter your own API keys for the AI services below. "
+            "For Google Gemini, you can get a free API key at Google AI Studio (aistudio.google.com). "
+            "Check 'Save Keys' to persist them across sessions."
         )).secondary()
         info_label.setWordWrap(True)
         

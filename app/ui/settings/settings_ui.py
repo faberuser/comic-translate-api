@@ -65,7 +65,12 @@ class SettingsPageUI(QtWidgets.QWidget):
         self.alignment = [self.tr("Left"), self.tr("Center"), self.tr("Right")]
 
         self.credential_services = [
-            self.tr("Custom"), 
+            self.tr("Google Gemini"),
+            self.tr("Open AI GPT"),
+            self.tr("Anthropic Claude"),
+            self.tr("Deepseek"),
+            self.tr("Microsoft Azure"),
+            self.tr("Custom"),
         ]
         
         self.supported_translators = [
@@ -249,7 +254,6 @@ class SettingsPageUI(QtWidgets.QWidget):
 
         # Add pages to stacked widget (order must match navbar order)
         self.stacked_widget.addWidget(self.personalization_page)
-        self.stacked_widget.addWidget(self.account_page)
         self.stacked_widget.addWidget(self.tools_page)
         self.stacked_widget.addWidget(self.llms_page)
         self.stacked_widget.addWidget(self.text_rendering_page)
@@ -304,14 +308,13 @@ class SettingsPageUI(QtWidgets.QWidget):
 
         for index, setting in enumerate([
             {"title": self.tr("Personalization"), "avatar": MPixmap(".svg")},
-            {"title": self.tr("Account"), "avatar": MPixmap(".svg")},
             {"title": self.tr("Tools"), "avatar": MPixmap(".svg")},
             {"title": self.tr("LLMs"), "avatar": MPixmap(".svg")},
             {"title": self.tr("Text Rendering"), "avatar": MPixmap(".svg")},
             {"title": self.tr("Project"), "avatar": MPixmap(".svg")},
             {"title": self.tr("Export"), "avatar": MPixmap(".svg")},
             {"title": self.tr("Shortcuts"), "avatar": MPixmap(".svg")},
-            {"title": self.tr("Advanced"), "avatar": MPixmap(".svg")},
+            {"title": self.tr("API Keys"), "avatar": MPixmap(".svg")},
             {"title": self.tr("About"), "avatar": MPixmap(".svg")},
         ]):
             nav_card = ClickMeta(extra=False)

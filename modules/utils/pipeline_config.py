@@ -35,8 +35,25 @@ def get_config(settings_page: SettingsPage):
 
     return config
 
+def _get_api_key_service(tool_name: str) -> str | None:
+    """Return the credential service name for a given tool, or None if no key needed."""
+    if not tool_name:
+        return None
+    if "Gemini" in tool_name:
+        return "Google Gemini"
+    if "GPT" in tool_name:
+        return "Open AI GPT"
+    if "Claude" in tool_name:
+        return "Anthropic Claude"
+    if "Deepseek" in tool_name:
+        return "Deepseek"
+    if "Microsoft" in tool_name:
+        return "Microsoft Azure"
+    return None
+
+
 def validate_ocr(main: ComicTranslate):
-    """Ensure either API credentials are set or the user is authenticated."""
+    """Ensure API credentials are configured for the selected OCR engine."""
     settings_page = main.settings_page
     tr = settings_page.ui.tr
     settings = settings_page.get_all_settings()
@@ -46,16 +63,24 @@ def validate_ocr(main: ComicTranslate):
     if not ocr_tool:
         Messages.show_missing_tool_error(main, QCoreApplication.translate("Messages", "Text Recognition model"))
         return False
-    
-    if not settings_page.is_logged_in():
-        Messages.show_not_logged_in_error(main)
-        return False
-        
+
+    service = _get_api_key_service(ocr_tool)
+    if service:
+        creds = credentials.get(tr(service), {})
+        if service == "Microsoft Azure":
+            if not creds.get('api_key_ocr') or not creds.get('endpoint'):
+                Messages.show_api_key_not_configured_error(main, service)
+                return False
+        else:
+            if not creds.get('api_key'):
+                Messages.show_api_key_not_configured_error(main, service)
+                return False
+
     return True
 
 
 def validate_translator(main: ComicTranslate, target_lang: str):
-    """Ensure either API credentials are set or the user is authenticated, plus check compatibility."""
+    """Ensure API credentials are configured for the selected translator."""
     settings_page = main.settings_page
     tr = settings_page.ui.tr
     settings = settings_page.get_all_settings()
@@ -66,21 +91,21 @@ def validate_translator(main: ComicTranslate, target_lang: str):
         Messages.show_missing_tool_error(main, QCoreApplication.translate("Messages", "Translator"))
         return False
 
-    if not settings_page.is_logged_in():
-        Messages.show_not_logged_in_error(main)
-        return False
-
-    # Credential checks
     if "Custom" in translator_tool:
-        # Custom requires api_key, api_url, and model to be configured LOCALLY
         service = tr('Custom')
         creds = credentials.get(service, {})
-        # Check if all required fields are present and non-empty
         if not all([creds.get('api_key'), creds.get('api_url'), creds.get('model')]):
             Messages.show_custom_not_configured_error(main)
             return False
         return True
-        
+
+    service = _get_api_key_service(translator_tool)
+    if service:
+        creds = credentials.get(tr(service), {})
+        if not creds.get('api_key'):
+            Messages.show_api_key_not_configured_error(main, service)
+            return False
+
     return True
 
 def font_selected(main: ComicTranslate):

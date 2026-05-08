@@ -34,8 +34,20 @@ class Messages:
         MMessage.error(
             text=QCoreApplication.translate(
                 "Messages",
-                "Please sign in or sign up via Settings > Account to continue."
+                "Please configure your API key via Settings > API Keys to continue."
             ),
+            parent=parent,
+            duration=None,
+            closable=True
+        )
+
+    @staticmethod
+    def show_api_key_not_configured_error(parent, service: str):
+        MMessage.error(
+            text=QCoreApplication.translate(
+                "Messages",
+                "API key for {service} is not configured.\nGo to Settings > API Keys to enter your key."
+            ).format(service=service),
             parent=parent,
             duration=None,
             closable=True
