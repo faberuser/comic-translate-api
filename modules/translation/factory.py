@@ -10,6 +10,8 @@ from .llm.claude import ClaudeTranslation
 from .llm.gemini import GeminiTranslation
 from .llm.deepseek import DeepseekTranslation
 from .llm.custom import CustomTranslation
+from .llm.lmstudio import LMStudioTranslation
+from .llm.ollama import OllamaTranslation
 
 
 class TranslationFactory:
@@ -30,6 +32,8 @@ class TranslationFactory:
         "Claude": ClaudeTranslation,
         "Gemini": GeminiTranslation,
         "Deepseek": DeepseekTranslation,
+        "LM Studio": LMStudioTranslation,
+        "Ollama": OllamaTranslation,
         "Custom": CustomTranslation
     }
     

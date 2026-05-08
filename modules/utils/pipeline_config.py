@@ -49,6 +49,10 @@ def _get_api_key_service(tool_name: str) -> str | None:
         return "Deepseek"
     if "Microsoft" in tool_name:
         return "Microsoft Azure"
+    if "LM Studio" in tool_name:
+        return "LM Studio"
+    if "Ollama" in tool_name:
+        return "Ollama"
     return None
 
 
@@ -96,6 +100,14 @@ def validate_translator(main: ComicTranslate, target_lang: str):
         creds = credentials.get(service, {})
         if not all([creds.get('api_key'), creds.get('api_url'), creds.get('model')]):
             Messages.show_custom_not_configured_error(main)
+            return False
+        return True
+
+    if "LM Studio" in translator_tool or "Ollama" in translator_tool:
+        service_name = "LM Studio" if "LM Studio" in translator_tool else "Ollama"
+        creds = credentials.get(tr(service_name), {})
+        if not creds.get('model'):
+            Messages.show_api_key_not_configured_error(main, f"{service_name} (model name required)")
             return False
         return True
 

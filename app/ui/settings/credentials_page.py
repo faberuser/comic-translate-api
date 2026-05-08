@@ -114,6 +114,35 @@ class CredentialsPage(QtWidgets.QWidget):
                 service_layout.addWidget(model_input)
                 self.credential_widgets[f"{normalized}_model"] = model_input
 
+            elif normalized in ("LM Studio", "Ollama"):
+                default_url = (
+                    "http://localhost:1234/v1" if normalized == "LM Studio"
+                    else "http://localhost:11434/v1"
+                )
+                hint_label = MLabel(self.tr(
+                    "Default endpoint: {url} — leave blank to use the default."
+                ).format(url=default_url)).secondary()
+                hint_label.setWordWrap(True)
+                service_layout.addWidget(hint_label)
+
+                model_input = MLineEdit()
+                model_input.setFixedWidth(400)
+                model_prefix = MLabel(self.tr("Model")).border()
+                set_label_width(model_prefix)
+                model_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                model_input.set_prefix_widget(model_prefix)
+                service_layout.addWidget(model_input)
+                self.credential_widgets[f"{normalized}_model"] = model_input
+
+                endpoint_input = MLineEdit()
+                endpoint_input.setFixedWidth(400)
+                endpoint_prefix = MLabel(self.tr("Endpoint URL")).border()
+                set_label_width(endpoint_prefix)
+                endpoint_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                endpoint_input.set_prefix_widget(endpoint_prefix)
+                service_layout.addWidget(endpoint_input)
+                self.credential_widgets[f"{normalized}_api_url"] = endpoint_input
+
             elif normalized == "Yandex":
                 api_key_input = MLineEdit()
                 api_key_input.setEchoMode(QtWidgets.QLineEdit.Password)

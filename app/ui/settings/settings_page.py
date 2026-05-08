@@ -130,6 +130,9 @@ class SettingsPage(QtWidgets.QWidget):
             elif normalized == "Microsoft Azure":
                 creds['api_key_ocr'] = _text_or_none("Microsoft Azure_api_key_ocr")
                 creds['endpoint'] = _text_or_none("Microsoft Azure_endpoint")
+            elif normalized in ("LM Studio", "Ollama"):
+                creds['model'] = _text_or_none(f"{normalized}_model")
+                creds['api_url'] = _text_or_none(f"{normalized}_api_url")
             else:
                 val = _text_or_none(f"{normalized}_api_key")
                 if val is not None:
@@ -268,6 +271,9 @@ class SettingsPage(QtWidgets.QWidget):
                 elif translated_service == "Microsoft Azure":
                     settings.setValue(f"{translated_service}_api_key_ocr", cred.get('api_key_ocr', ''))
                     settings.setValue(f"{translated_service}_endpoint", cred.get('endpoint', ''))
+                elif translated_service in ("LM Studio", "Ollama"):
+                    settings.setValue(f"{translated_service}_model", cred.get('model', ''))
+                    settings.setValue(f"{translated_service}_api_url", cred.get('api_url', ''))
                 else:
                     settings.setValue(f"{translated_service}_api_key", cred.get('api_key', ''))
         else:
@@ -397,6 +403,13 @@ class SettingsPage(QtWidgets.QWidget):
                         w_ocr.setText(settings.value(f"{translated_service}_api_key_ocr", ''))
                     if w_ep:
                         w_ep.setText(settings.value(f"{translated_service}_endpoint", ''))
+                elif translated_service in ("LM Studio", "Ollama"):
+                    w_model = self.ui.credential_widgets.get(f"{translated_service}_model")
+                    w_url = self.ui.credential_widgets.get(f"{translated_service}_api_url")
+                    if w_model:
+                        w_model.setText(settings.value(f"{translated_service}_model", ''))
+                    if w_url:
+                        w_url.setText(settings.value(f"{translated_service}_api_url", ''))
                 else:
                     w = self.ui.credential_widgets.get(f"{translated_service}_api_key")
                     if w:

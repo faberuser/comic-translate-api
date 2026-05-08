@@ -70,6 +70,8 @@ class SettingsPageUI(QtWidgets.QWidget):
             self.tr("Anthropic Claude"),
             self.tr("Deepseek"),
             self.tr("Microsoft Azure"),
+            self.tr("LM Studio"),
+            self.tr("Ollama"),
             self.tr("Custom"),
         ]
         
@@ -80,6 +82,8 @@ class SettingsPageUI(QtWidgets.QWidget):
             self.tr("Claude-4.6-Sonnet"),
             self.tr("Claude-4.5-Haiku"),
             self.tr("Deepseek-v3"),
+            self.tr("LM Studio"),
+            self.tr("Ollama"),
             self.tr("Custom"),
         ]
         
@@ -159,6 +163,8 @@ class SettingsPageUI(QtWidgets.QWidget):
             self.tr("DeepL"): "DeepL",
             self.tr("Anthropic Claude"): "Anthropic Claude",
             self.tr("Yandex"): "Yandex",
+            self.tr("LM Studio"): "LM Studio",
+            self.tr("Ollama"): "Ollama",
         }
 
         # Create reverse mappings for loading
